@@ -19,7 +19,6 @@
 #include <type_traits>
 #include <typeindex>
 #include <functional>
-#include <future>
 #include <atomic>
 
 namespace so_5
