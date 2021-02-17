@@ -55,10 +55,15 @@ jobs:
         #          set PATH=$PATH:/target/bin
         #          ctest --output-on-failure -C Release
 
-      - name: Check PATH
+      - name: Update PATH
         shell: bash
         run: |
           echo $PATH
           echo './target/bin' >> $GITHUB_PATH
+
+      - name: Check Updated Path
+        shell: bash
+        run: echo $PATH
+
           echo $PATH
 
