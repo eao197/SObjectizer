@@ -17,14 +17,13 @@ jobs:
             os: windows-latest,
             cc: "cl",
             cxx: "cl",
-              #            environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
           }
-        - {
-            name: "Ubuntu Latest GCC",
-            os: ubuntu-latest,
-            cc: "gcc",
-            cxx: "g++",
-          }
+          #        - {
+          #            name: "Ubuntu Latest GCC",
+          #            os: ubuntu-latest,
+          #            cc: "gcc",
+          #            cxx: "g++",
+          #          }
 
     steps:
       - uses: actions/checkout@v2
@@ -35,7 +34,8 @@ jobs:
           mkdir cmake_build
           cd cmake_build
           cmake \
-            -DBUILD_ALL=ON \
+            -DBUILD_TESTS=ON \
+            -DBUILD_EXAMPLES=OFF \
             -DCMAKE_INSTALL_PREFIX=target \
             -DCMAKE_BUILD_TYPE=Release \
             ../dev/
@@ -46,9 +46,12 @@ jobs:
           cd cmake_build
           cmake --build . --config Release
 
-      - name: Test
+      - name: Test-On-Windows
+        if: startsWith(matrix.config.os, 'windows')
         shell: bash
         run: |
           cd cmake_build
+          cmake --build . --config Release --target install
+          set PATH=%PATH%;./target/bin
           ctest --output-on-failure -C Release
 
