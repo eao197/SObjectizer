@@ -1,0 +1,55 @@
+name: GitHub Actions CI
+
+on:
+  push:
+    branches: [5.7-dev-5.7.3-github-actions-ci]
+
+jobs:
+  build_and_check:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: true #false
+      matrix:
+        config:
+        - {
+            name: "Windows Latest MSVC",
+            os: windows-latest,
+            cc: "cl",
+            cxx: "cl",
+            environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
+          }
+        - {
+            name: "Ubuntu Latest GCC",
+            os: ubuntu-latest,
+            cc: "gcc",
+            cxx: "g++",
+          }
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure
+        shell: bash
+        run: |
+          mkdir cmake_build
+          cd cmake_build
+          cmake \
+            -DBUILD_ALL=ON \
+            -DCMAKE_INSTALL_PREFIX=target \
+            -DCMAKE_BUILD_TYPE=Release \
+            ../dev/
+
+      - name: Build
+        shell: bash
+        run: |
+          cd cmake_build
+          cmake --build . --config Release
+
+      - name: Test
+        shell: bash
+        run: |
+          cd cmake_build
+          ctest --output-on-failure
+
+
