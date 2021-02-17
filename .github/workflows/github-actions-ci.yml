@@ -59,7 +59,7 @@ jobs:
         shell: bash
         run: |
           echo $PATH
-          echo "{./target/bin}" >> $GITHUB_PATH
+          echo "./target/bin" >> $GITHUB_PATH
 
       - name: Check Updated Path
         shell: bash
