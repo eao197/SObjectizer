@@ -17,7 +17,7 @@ jobs:
             os: windows-latest,
             cc: "cl",
             cxx: "cl",
-            environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
+              #            environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
           }
         - {
             name: "Ubuntu Latest GCC",
@@ -50,6 +50,5 @@ jobs:
         shell: bash
         run: |
           cd cmake_build
-          ctest --output-on-failure
-
+          ctest --output-on-failure -C Release
 
