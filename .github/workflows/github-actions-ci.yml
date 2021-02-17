@@ -52,6 +52,6 @@ jobs:
         run: |
           cd cmake_build
           cmake --build . --config Release --target install
-          set PATH=%PATH%;./target/bin
+          set PATH=$PATH:/target/bin
           ctest --output-on-failure -C Release
 
