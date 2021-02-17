@@ -28,30 +28,37 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Configure
-        shell: bash
-        run: |
-          mkdir cmake_build
-          cd cmake_build
-          cmake \
-            -DBUILD_TESTS=ON \
-            -DBUILD_EXAMPLES=OFF \
-            -DCMAKE_INSTALL_PREFIX=target \
-            -DCMAKE_BUILD_TYPE=Release \
-            ../dev/
+        #      - name: Configure
+        #        shell: bash
+        #        run: |
+        #          mkdir cmake_build
+        #          cd cmake_build
+        #          cmake \
+        #            -DBUILD_TESTS=ON \
+        #            -DBUILD_EXAMPLES=OFF \
+        #            -DCMAKE_INSTALL_PREFIX=target \
+        #            -DCMAKE_BUILD_TYPE=Release \
+        #            ../dev/
+        #
+        #      - name: Build
+        #        shell: bash
+        #        run: |
+        #          cd cmake_build
+        #          cmake --build . --config Release
+        #
+        #      - name: Test-On-Windows
+        #        if: startsWith(matrix.config.os, 'windows')
+        #        shell: bash
+        #        run: |
+        #          cd cmake_build
+        #          cmake --build . --config Release --target install
+        #          set PATH=$PATH:/target/bin
+        #          ctest --output-on-failure -C Release
 
-      - name: Build
+      - name: Check PATH
         shell: bash
         run: |
-          cd cmake_build
-          cmake --build . --config Release
-
-      - name: Test-On-Windows
-        if: startsWith(matrix.config.os, 'windows')
-        shell: bash
-        run: |
-          cd cmake_build
-          cmake --build . --config Release --target install
-          set PATH=$PATH:/target/bin
-          ctest --output-on-failure -C Release
+          echo $PATH
+          echo './target/bin' >> $GITHUB_PATH
+          echo $PATH
 
