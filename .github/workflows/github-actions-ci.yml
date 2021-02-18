@@ -17,12 +17,14 @@ jobs:
             os: windows-latest,
             cc: "cl",
             cxx: "cl",
+            generator: "NMake Makefiles"
           }
           #        - {
           #            name: "Ubuntu Latest GCC",
           #            os: ubuntu-latest,
           #            cc: "gcc",
           #            cxx: "g++",
+          #            generator: "Unix Makefiles"
           #          }
 
     steps:
@@ -38,6 +40,7 @@ jobs:
             -DBUILD_EXAMPLES=OFF \
             -DCMAKE_INSTALL_PREFIX=target \
             -DCMAKE_BUILD_TYPE=Release \
+            -G ${{ matrix.config.generator }}
             ../dev/
 
       - name: Build
@@ -52,16 +55,10 @@ jobs:
           cd cmake_build
           cmake --build . --config Release --target install
 
-      - name: Update PATH
-        shell: bash
-        run: |
-          echo $PATH
-          echo "./target/bin" >> $GITHUB_PATH
-
       - name: Test-On-Windows
         if: startsWith(matrix.config.os, 'windows')
         shell: bash
         run: |
           cd cmake_build
-          ctest --output-on-failure -C Release
+          run_tests.bat target Release
 
