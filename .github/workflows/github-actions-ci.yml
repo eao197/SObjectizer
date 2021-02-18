@@ -40,7 +40,7 @@ jobs:
             -DBUILD_EXAMPLES=OFF \
             -DCMAKE_INSTALL_PREFIX=target \
             -DCMAKE_BUILD_TYPE=Release \
-            -G "${{ matrix.config.generator }}"
+            -G "${{ matrix.config.generator }}" \
             ../dev/
 
       - name: Build
