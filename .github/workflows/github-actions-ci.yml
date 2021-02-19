@@ -63,5 +63,5 @@ jobs:
         shell: bash
         run: |
           cd cmake_build
-          run_tests.bat target Release
+          ./run_tests.bat target Release
 
